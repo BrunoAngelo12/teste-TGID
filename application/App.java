@@ -14,20 +14,28 @@ public class App{
         System.out.println("To proceed with registration, enter the desired number:\n1 - CPF\n2 - CNPJ\n3 - Exit");
         System.out.print("Enter a number: ");
         byte byteSelection = sc.nextByte();
-        switch (byteSelection) {
-            case 1:
-                Client newClient = clientRegistration(sc);
-                break;
-            case 2:
-                Corporation newCorporation = corporationRegistration(sc);
-                break;
-            case 3:
-                System.out.println("Feel free! :)");
-                break;
-            default:
-                System.out.println("Select a valid number");
-                break;
-        }
+        char charContinue = 'y';
+        do{
+            switch (byteSelection) {
+                case 1:
+                    Client newClient = clientRegistration(sc);
+                    System.out.print("\n Do you want to register again? - y = yes | n = no: ");
+                    charContinue = sc.next().charAt(0);
+                    break;
+                case 2:
+                    Corporation newCorporation = corporationRegistration(sc);
+                    System.out.print("\n Do you want to register again? - y = yes | n = no: ");
+                    charContinue = sc.next().charAt(0);
+                    break;
+                case 3:
+                    System.out.println("Feel free! :)");
+                    break;
+                default:
+                    System.out.println("Select a valid number");
+                    break;
+            }
+        }while(charContinue == 'y');
+        System.out.println(":)");
         sc.close();
     }
 
@@ -73,6 +81,7 @@ public class App{
         long longNumberOfDigits = 0;
         boolean booNumberOk = false;
         boolean booApplicationError = false;
+        int intSystemFee = 0;
             do{
                 try{
                     System.out.print("To get started, register your CNPJ (14 Digits): ");
@@ -87,6 +96,8 @@ public class App{
                     }else{
                         System.out.println("- Enter a valid CNPJ - ");
                     }
+                    System.out.print("Enter the system fee percentage number on transactions: ");
+                    intSystemFee = sc.nextInt();
                 }catch (InputMismatchException e){
                     System.out.println("Error: You did not enter a valid character, please try again.");
                     booApplicationError = true;
@@ -98,7 +109,7 @@ public class App{
                 System.out.print("");
             }else{
                 String strPassword = passwordRegistration(sc);
-                Corporation newCorporation = new Corporation(longNumberEntered, strPassword);
+                Corporation newCorporation = new Corporation(longNumberEntered, strPassword, intSystemFee);
                 System.out.println("Company registered successfully!");
                 return newCorporation;
             }    
