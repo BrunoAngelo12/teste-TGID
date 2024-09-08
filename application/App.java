@@ -3,20 +3,22 @@ package application;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import application.entities.Client;
+
 public class App{
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("  -  Welcome to the TGID System :)  -\n");
-        register(sc);
-        System.out.println(":)");  
+        userRegistration(sc);
+ 
 
         sc.close();
     }
 
-    public static void register(Scanner sc){
+    public static void userRegistration(Scanner sc){
         long longNumberEntered = 0;
-        long longNumberOfDigits;
+        long longNumberOfDigits = 0;
         boolean booNumberOk = false;
             do{
                 try{
@@ -36,6 +38,19 @@ public class App{
                     System.out.println("Error: You did not enter a valid character, please try again.");
                     break;
                 }
-            }while(booNumberOk == false);        
+            }while(booNumberOk == false);
+
+            String strPassword = passwordRegistration(sc);
+            if(longNumberOfDigits == 11){
+                Client newClient = new Client(longNumberEntered, strPassword);
+            }
+            
+    }
+
+    public static String passwordRegistration(Scanner sc){
+        System.out.print("Register your password: ");
+        String strPassword = sc.nextLine();
+        sc.nextLine();
+        return strPassword;
     }
 }
